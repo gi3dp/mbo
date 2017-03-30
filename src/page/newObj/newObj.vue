@@ -1,34 +1,43 @@
 <template>
-<div >
-        <head-top  headTitle='新建目标' goBack=true> 
-           
+     <div class="container">
+        <head-top  headTitle='新建目标' goBack=true>           
         </head-top>
-        <form class='newObjForm'>
-            <label >主项</label>
-            <select id="category" v-model="newObj.category">
-                <option v-for='option in options' :value="option.value">
-                    {{option.text}}
-                </option>
-            </select>
-            <br>
-            <label for="project">工作项目</label>
-            <input type="text" id="project" v-model="newObj.project">
-            <br>
-            <label for="content">工作内容</label>
-            <input type="text" id="content" v-model="newObj.content">
-            <br>
-            <label for="estimate">完成小时</label>
-            <input type="text" id="estimate" v-model="newObj.estimate">
-            <br>
-            <label for="target">目标</label>
-            <input type="text" id="target" v-model="newObj.target">
-            <span>或</span>
-            <input type="text" id="target" v-model="newObj.target">
-            <br>
-            <label for="evaluation">评价方法</label>
-            <input type="text" id="evaluation" v-model="newObj.evaluation">
-        </form>
-        <button @click="addObj" >确认</button>
+
+          <group >
+            <selector title="主项" v-model="category" :options="options"></selector>
+         </group>
+
+        <group >
+            <x-textarea title="工作项目" placeholder="请输入项目名称" :show-counter="false" v-model="project" :rows="1" ref="autosize"></x-textarea>
+         </group>     
+
+        <group >
+            <x-textarea title="工作内容" placeholder="请输入具体内容" :show-counter="false" v-model="content" :rows="3" ref="autosize"></x-textarea>
+         </group>   
+           
+        <group >
+            <x-input title="完成小时" type="number" placeholder="请输入预估小时" :show-clear="true" v-model="estimateHours"></x-input>
+        </group>
+
+        <group>
+            <flexbox align="center">
+                <flexbox-item>
+                     <x-input v-model="target" title="目  标" placeholder="输入具体目标或设置时间"  :show-clear="true"></x-input>
+                </flexbox-item>
+
+                <flexbox-item :span="1/3">
+                    <datetime title='' v-model="target" clear-text="today"  @on-clear="setToday" format="MM-DD HH:mm" :min-hour='9' :max-hour='18' >
+                        <x-button >设置时间</x-button>
+                    </datetime>
+                </flexbox-item>
+            </flexbox>
+        </group>
+
+
+        <group>
+            <x-textarea title="评价方法" placeholder="请输入评价标准，考核依据，打分标准" :show-counter="false" v-model="evaluation" :rows="3" ref="autosize"></x-textarea>
+         </group>     
+        <XButton  @click.native="addObj" type="primary">确认</XButton>
 
 </div>
 
@@ -37,26 +46,41 @@
 <script>
 import headTop from '@/components/header/head'
 import objectsRef from '@/firebase'
+import { XTextarea,XButton,Selector,Group,XInput,Flexbox,FlexboxItem,Datetime } from 'vux'
 
 export default {
+    components:{
+        headTop,
+        Selector,
+        Group,
+        XButton,
+        XTextarea,
+        XInput,
+        Flexbox,
+        Datetime,
+        FlexboxItem
+    },
     data(){
         return{
+            category:0,
             options:[
-                {text:'月汇报工作',value:0},
-                {text:'固定工作',value:1},
-                {text:'变动工作',value:2},
-                {text:'会议',value:3}
+                {value:'月汇报工作',key:0},
+                {value:'固定工作',key:1},
+                {value:'变动工作',key:2},
+                {value:'会议',key:3}
             ],
-            newObj:{
-                category:"",
-                project:"",
-                content:"",
-                target:"",
-                evaluation:"",
-                status:"confirm",
-                estimate:""
-            }
+            project:"",
+            content:"",
+            target:"",
+            evaluation:"",
+            status:"confirm",
+            estimateHours:""
+
         }
+    },
+    
+    methods: {
+
     },
 
     //todo: refactory with mixin
@@ -64,14 +88,29 @@ export default {
         objectListArr:objectsRef
     },
 
-    components:{
-        headTop,       
-    },
 
     methods:{
         addObj(){
-            objectsRef.push(this.newObj);
+            let vm = this
+            let newObj = {
+                'category':this.category,
+                'content':this.content,
+                'estimateHours':this.estimateHours,
+                'status':"confirm",
+                'evaluation':this.evaluation,
+                'target':this.target,
+                'project':this.project
+            }
+            objectsRef.push(newObj);
             this.$router.go(-1)
+        },
+        setToday(value){
+            let now = new Date()
+            let cmonth = now.getMonth() + 1
+            let day = now.getDate()
+            if (cmonth < 10) cmonth = '0' + cmonth
+            if (day < 10) day = '0' + day
+            this.$data.target = cmonth + '-' + day + ' 18:00'
         }
     },
 }
@@ -79,7 +118,10 @@ export default {
 
 <style lang="scss" scoped>
     @import 'style/mixin';
-    .newObjForm{
-        padding-top:2rem;
+
+    .container{
+        display:flex;
+        flex-direction:column;
+        min-height: 100vh;
     }
 </style>
