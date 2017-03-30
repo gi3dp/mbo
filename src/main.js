@@ -6,6 +6,7 @@ import routes from './router/router'
 import VueRouter from 'vue-router'
 import './config/rem'
 import VueFire from 'vuefire'
+import {store} from './store/store'
 
 Vue.config.productionTip = false
 Vue.use(VueRouter)
@@ -18,6 +19,7 @@ const router = new VueRouter({
 new Vue({
   el: '#app',
   router,
+  store,
   template: '<App/>',
   components: { App }
 })

@@ -2,7 +2,7 @@
 
         <ul v-if='objectListArr.length' id="objAllList">
     
-            <li  v-for="object in objectListArr"  :key="object.id" class="obj-li">
+            <li  v-for="object in filteredObjectListArr"  :key="object.id" class="obj-li">
             <!--带颜色的标签-->
                 <div :style='{backgroundColor:Color(object.status)}' class='obj-label'>
     
@@ -170,8 +170,20 @@
     
             }
     
-        }
-    
+        },
+
+        computed:{
+            filteredObjectListArr(){
+                let vm = this
+                return this.objectListArr.filter(function(item){
+                    return item.content.indexOf(vm.$store.getters.value)!== -1
+                })
+            }
+        },
+
+        mounted () {
+            console.log(this.objectListArr)
+        }   
     }
     
 </script>

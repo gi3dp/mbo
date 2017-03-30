@@ -27,6 +27,7 @@
                     </router-link>
             </span>
         </head-top>
+        <search v-model="value"></search>
         <objectList></objectList>
         <footGuide></footGuide>
     </div>
@@ -36,21 +37,26 @@
 import headTop from '@/components/header/head'
 import objectList from '@/components/common/objectList'
 import footGuide from '@/components/footer/footGuide'
+import {Search} from 'vux'
 
 
 export default {
-        components:{
+    components:{
         headTop,
         objectList,
         footGuide,
+        Search,
     },
-        methods:{
-    },
-    data(){
-        return{
-            
+    computed:{
+        value:{
+            get(){
+                return this.$store.getters.value;
+            },
+            set(value){
+                this.$store.dispatch('updateValue',value)
+            }
         }
-    }
+    },
 }
 </script>
 
