@@ -4,7 +4,8 @@ const home = r => require.ensure([], () => r(require('../page/home/home')), 'hom
 const completionRate = r => require.ensure([], () => r(require('../page/completionRate/completionRate')), 'completionRate')
 const kpi = r => require.ensure([], () => r(require('../page/kpi/kpi')), 'kpi')
 const message = r => require.ensure([], () => r(require('../page/message/message')), 'message')
-const newObj = r => require.ensure([], () => r(require('../page/newObj/newObj')), 'newObj')
+const newObj = r => require.ensure([], () => r(require('../page/obj/newObj')), 'newObj')
+const objDetail = r => require.ensure([], () => r(require('../page/obj/objDetail')), 'objDetail')
 
 export default [{
   path:'/',
@@ -34,6 +35,9 @@ export default [{
     {
       path:'/newObj',
       component:newObj
+    },
+    {
+      path:'/objects/:detail', component:objDetail, props:true, name:'objDetail'
     },
   ]
 }]

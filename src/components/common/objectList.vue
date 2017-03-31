@@ -2,7 +2,7 @@
 
         <ul v-if='objectListArr.length' id="objAllList">
     
-            <li  v-for="object in filteredObjectListArr"  :key="object.id" class="obj-li">
+            <li  v-for="object in filteredObjectListArr"  class="obj-li">
             <!--带颜色的标签-->
                 <div :style='{backgroundColor:Color(object.status)}' class='obj-label'>
     
@@ -17,6 +17,7 @@
                     <div class="target">{{object.target}}</div>
     
                     <div class="content">{{object.content}}</div>
+
     
                 </div>
                 
@@ -25,7 +26,7 @@
 
                 
                     <section class="detail-button">
-                        <router-link  to={path:object,query:{id:object.id}}>
+                        <router-link  :to="{name:'objDetail',params:{detail:object}}">
                             <svg version="1.1"
                             width="0.9173rem" viewBox="0 0 100 100"
                                 xml:space="preserve" fill="#7B7B7B" id="detail"> 
@@ -142,25 +143,25 @@
             convertObjectCategory(text){
                 switch (text) {
     
-                    case 1:
+                    case 0:
     
                         return '月汇报工作';
     
                         break;
     
-                    case 2:
+                    case 1:
     
                         return '固定工作';
     
                         break;
     
-                    case 3:
+                    case 2:
     
                         return '变动工作';
     
                         break;
     
-                    case 4:
+                    case 3:
     
                         return '会议';
     
@@ -176,14 +177,17 @@
             filteredObjectListArr(){
                 let vm = this
                 return this.objectListArr.filter(function(item){
+                    console.log(item.content)
                     return item.content.indexOf(vm.$store.getters.value)!== -1
                 })
             }
         },
 
-        mounted () {
-            console.log(this.objectListArr)
-        }   
+        // mounted () {
+        //     objectsRef.on('child_added',snapshot=>{
+        //         console.log(snapshot.key)
+        //     })
+        // }   
     }
     
 </script>

@@ -102,6 +102,7 @@ export default {
                 'target':this.target,
                 'project':this.project,
                 'createdDate':new Date(),
+                '_key':objectsRef.push().getKey()
             }
             objectsRef.push(newObj);
             this.$router.go(-1)
