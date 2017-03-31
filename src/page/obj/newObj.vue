@@ -45,7 +45,7 @@
 
 <script>
 import headTop from '@/components/header/head'
-import objectsRef from '@/firebase'
+import db from '@/firebase'
 import { XTextarea,XButton,Selector,Group,XInput,Flexbox,FlexboxItem,Datetime } from 'vux'
 
 export default {
@@ -84,10 +84,6 @@ export default {
     },
 
     //todo: refactory with mixin
-    firebase:{
-        objectListArr:objectsRef
-    },
-
 
     methods:{
         addObj(){
@@ -102,9 +98,10 @@ export default {
                 'target':this.target,
                 'project':this.project,
                 'createdDate':new Date(),
-                '_key':objectsRef.push().getKey()
+                '_key':db.ref().push().getKey()
             }
-            objectsRef.push(newObj);
+            console.log('newOBj:',newObj)
+            db.ref('/objects/'+ newObj._key).set(newObj);
             this.$router.go(-1)
         },
         setToday(value){

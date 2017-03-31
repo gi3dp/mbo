@@ -48,13 +48,13 @@
 </template>
 
 <script>
-    import objectsRef from '@/firebase'
+    import db from '@/firebase'
     
     export default {
     
         firebase: {
     
-            objectListArr: objectsRef,
+            objectListArr: db.ref('objects'),
     
         },
     

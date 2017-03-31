@@ -44,7 +44,7 @@
 
 <script>
 import headTop from '@/components/header/head'
-import objectsRef from '@/firebase'
+import db from '@/firebase'
 import { XTextarea,XButton,Selector,Group,XInput,Flexbox,FlexboxItem,Datetime } from 'vux'
 
 export default {
@@ -60,7 +60,7 @@ export default {
             FlexboxItem
         },
         firebase: {
-            objectListArr: objectsRef
+            objectListArr: db.ref('objects')
         },
 
         //Get from router
@@ -79,10 +79,12 @@ export default {
 
         methods:{
             updateObj(){
-                console.log(this.detail._key)
-                objectsRef.child(this.detail._key).update({
-                    'updateTime':new Date()
-                });
+                delete this.detail[".key"]
+                this.detail['updateTime']=new Date()
+                console.log(this.detail)
+                db.ref('objects').child(this.detail._key).update(
+                    this.detail
+                );
                 this.$router.go(-1)
             },
             setToday(value){
@@ -94,13 +96,6 @@ export default {
                 this.$data.target = cmonth + '-' + day + ' 18:00'
             }
         },
-
-
-        mounted () {
-            objectsRef.once('child_changed')
-            .then(snapshot=>{
-                console.log(snapshot.key,'key')
-            })
-        } 
+ 
     }
 </script>

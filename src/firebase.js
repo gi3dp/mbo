@@ -10,6 +10,6 @@ let config = {
 let app = Firebase.initializeApp(config)
 let db = app.database()
 
-let objectsRef = db.ref('objects')
+// let objectsRef = db.ref('objects')
 
-export default objectsRef
+export default db
