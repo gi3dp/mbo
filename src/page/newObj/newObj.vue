@@ -16,7 +16,7 @@
          </group>   
            
         <group >
-            <x-input title="完成小时" type="number" placeholder="请输入预估小时" :show-clear="true" v-model="estimateHours"></x-input>
+            <x-input title="完成小时" type="number" placeholder="请输入预估小时" :show-clear="true" v-model.number="estimateHours"></x-input>
         </group>
 
         <group>
@@ -95,11 +95,13 @@ export default {
             let newObj = {
                 'category':this.category,
                 'content':this.content,
+                //todo:estimateHours转为数字
                 'estimateHours':this.estimateHours,
                 'status':"confirm",
                 'evaluation':this.evaluation,
                 'target':this.target,
-                'project':this.project
+                'project':this.project,
+                'createdDate':new Date(),
             }
             objectsRef.push(newObj);
             this.$router.go(-1)
