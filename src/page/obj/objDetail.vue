@@ -58,7 +58,7 @@
                 </flexbox-item>
 
                 <flexbox-item :span="1/3">
-                    <datetime title='' v-model="detail.target" clear-text="today"  @on-clear="setToday" format="MM-DD HH:mm" :min-hour='9' :max-hour='18' >
+                    <datetime title='' v-model="detail.target " clear-text="today"  @on-clear="setToday" format="MM-DD HH:mm" :min-hour='9' :max-hour='18' >
                         <x-button >设置时间</x-button>
                     </datetime>
                 </flexbox-item>
@@ -70,6 +70,7 @@
             <x-textarea title="评价方法" placeholder="请输入评价标准，考核依据，打分标准" :show-counter="false" v-model="detail.evaluation" :rows="3" ref="autosize"></x-textarea>
          </group>     
         <XButton  @click.native="updateObj" type="primary">确认更新</XButton>
+        <div>{{detail['.key']}}</div>
 
 </div>
 </template>
@@ -116,15 +117,16 @@ export default {
 
         methods:{
             updateObj(){
+                const key =  this.detail[".key"]
                 delete this.detail[".key"]
                 this.detail['updateTime']=new Date()
                 console.log(this.detail)
-                db.ref('objects').child(this.detail._key).update(
+                db.ref('/objects/'+key).update(
                     this.detail
                 );
                 this.$router.go(-1)
             },
-            setToday(value){
+            setToday(){
                 let now = new Date()
                 let cmonth = now.getMonth() + 1
                 let day = now.getDate()
@@ -140,9 +142,9 @@ export default {
                 console.log('on cancel')
             },
             onConfirm () {
+                const key =  this.detail[".key"]
                 console.log('on confirm')
-                delete this.detail[".key"]
-                db.ref('objects').child(this.detail._key).set(
+                db.ref('/objects/'+ key).set(
                     null
                 );
                 this.$router.go(-1)

@@ -22,12 +22,12 @@
         <group>
             <flexbox align="center">
                 <flexbox-item>
-                     <x-input v-model="target" title="目  标" placeholder="输入具体目标或设置时间"  :show-clear="true"></x-input>
+                     <x-input v-model="target" title="目  标" placeholder="输入具体目标"  :show-clear="true"></x-input>
                 </flexbox-item>
 
-                <flexbox-item :span="1/3">
+                <flexbox-item :span="1/4">
                     <datetime title='' v-model="target" clear-text="today"  @on-clear="setToday" format="MM-DD HH:mm" :min-hour='9' :max-hour='18' >
-                        <x-button >设置时间</x-button>
+                        <x-button >截止日</x-button>
                     </datetime>
                 </flexbox-item>
             </flexbox>
@@ -91,17 +91,14 @@ export default {
             let newObj = {
                 'category':this.category,
                 'content':this.content,
-                //todo:estimateHours转为数字
                 'estimateHours':this.estimateHours,
                 'status':"confirm",
                 'evaluation':this.evaluation,
                 'target':this.target,
                 'project':this.project,
-                'createdDate':new Date(),
-                '_key':db.ref().push().getKey()
             }
             console.log('newOBj:',newObj)
-            db.ref('/objects/'+ newObj._key).set(newObj);
+            db.ref('/objects/').push(newObj);
             this.$router.go(-1)
         },
         setToday(value){
