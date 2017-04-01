@@ -27,7 +27,7 @@
                     </router-link>
             </span>
         </head-top>
-        <search v-model="value"></search>
+        <search v-model="value" @on-cancel="value=''"></search>
         <objectList></objectList>
         <footGuide></footGuide>
     </div>

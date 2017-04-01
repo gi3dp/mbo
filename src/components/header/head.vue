@@ -23,6 +23,7 @@
 
         <slot name="filter"></slot>
         <slot name="edit"></slot>
+        <slot name="delete"></slot>
 
     </header>
 </template>
@@ -56,7 +57,7 @@
 
     #head_top{
         // background-color: $blue;
-        flex-basis:$headerHight;
+        flex:0 1 $headerHight;
         display:flex;
         flex-direction: row;              
     };
