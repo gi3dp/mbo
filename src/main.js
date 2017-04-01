@@ -7,6 +7,7 @@ import VueRouter from 'vue-router'
 import './config/rem'
 import VueFire from 'vuefire'
 import {store} from './store/store'
+import './getInfo'
 
 Vue.config.productionTip = false
 Vue.use(VueRouter)
