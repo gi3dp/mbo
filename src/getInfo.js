@@ -7,8 +7,11 @@ const departmentUrl = "https://qy.bangongyi.com/address/api/department/list?tick
 const getInfo =() =>{
         axios.get(departmentUrl+ticket)
         .then(resp => {
-            console.log('sucess')
-            console.log(resp.data.data)
+            //更新部门列表
+            let apartments = resp.data.data.department_list
+            db.ref().update({
+                apartments
+            })
         })
 }
 

@@ -6,6 +6,7 @@ const kpi = r => require.ensure([], () => r(require('../page/kpi/kpi')), 'kpi')
 const message = r => require.ensure([], () => r(require('../page/message/message')), 'message')
 const newObj = r => require.ensure([], () => r(require('../page/obj/newObj')), 'newObj')
 const objDetail = r => require.ensure([], () => r(require('../page/obj/objDetail')), 'objDetail')
+const data = r => require.ensure([], () => r(require('../api/data.vue')), 'data')
 
 export default [{
   path:'/',
@@ -39,5 +40,9 @@ export default [{
     {
       path:'/objects/:detail', component:objDetail, props:true, name:'objDetail'
     },
+    {
+      path:'/api',
+      component:data
+    }
   ]
 }]
